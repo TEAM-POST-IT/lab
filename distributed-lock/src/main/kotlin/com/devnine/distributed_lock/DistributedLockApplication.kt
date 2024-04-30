@@ -1,11 +1,11 @@
-package com.devnine.lettucelock
+package com.devnine.distributed_lock
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class LettuceLockApplication
+class DistributedLockApplication
 
 fun main(args: Array<String>) {
-    runApplication<LettuceLockApplication>(*args)
+    runApplication<DistributedLockApplication>(*args)
 }

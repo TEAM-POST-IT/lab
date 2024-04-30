@@ -1,3 +1,3 @@
 rootProject.name = "lab"
 
-include("lettuce-lock")
+include("distributed-lock")
