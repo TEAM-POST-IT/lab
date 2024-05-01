@@ -32,6 +32,10 @@ subprojects {
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter")
         implementation("org.jetbrains.kotlin:kotlin-reflect")
+        implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+        implementation("io.github.oshai:kotlin-logging-jvm:6.0.9")
+
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
 
