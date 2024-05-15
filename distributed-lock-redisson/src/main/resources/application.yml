@@ -22,4 +22,4 @@ spring:
 
 logging:
   level:
-    org.springframework.r2dbc.connection: "DEBUG"
+    ROOT: info
