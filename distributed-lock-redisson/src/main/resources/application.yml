@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/redisson-lock?characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: admin
+    pool:
+      enabled: true
+      initial-size: 10
+      max-size: 10
+      max-acquire-time: 2000
+  sql:
+    init:
+      schema-locations: classpath:sql/schema/**.sql
+      data-locations:
+        - classpath:sql/data/**.sql
+      mode: always
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+logging:
+  level:
+    org.springframework.r2dbc.connection: "DEBUG"
