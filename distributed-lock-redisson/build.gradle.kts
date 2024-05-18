@@ -79,5 +79,5 @@ jooq {
 }
 
 tasks.withType<KotlinCompile> {
-    dependsOn("generateMainJooqSchemaSource")
+    dependsOn("generateJooq")
 }
