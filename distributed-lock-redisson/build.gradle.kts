@@ -6,15 +6,17 @@ plugins {
     id("nu.studer.jooq") version "9.0"
 }
 
-val jooqVersion = "3.18.13"
+val jooqVersion = "3.18.14"
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     runtimeOnly("com.mysql:mysql-connector-j")
 
-    // jooq
+    // JOOQ 설정
     implementation("org.springframework.boot:spring-boot-starter-jooq")
-    implementation("org.jooq:jooq-codegen:${jooqVersion}")
-    implementation("org.jooq:jooq-meta:${jooqVersion}")
+    implementation("org.jooq:jooq:$jooqVersion")
+    implementation("org.jooq:jooq-codegen:$jooqVersion")
+    implementation("org.jooq:jooq-meta:$jooqVersion")
+    jooqGenerator("org.jooq:jooq-codegen:$jooqVersion")
     jooqGenerator("com.mysql:mysql-connector-j")
 
     // redis
