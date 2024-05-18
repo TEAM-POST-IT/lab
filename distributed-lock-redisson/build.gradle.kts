@@ -1,3 +1,4 @@
+import nu.studer.gradle.jooq.JooqEdition
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jooq.meta.jaxb.ForcedType
 import org.jooq.meta.jaxb.Logging
@@ -30,7 +31,7 @@ dependencies {
 
 jooq {
     version = jooqVersion // default (can be omitted)
-    edition.set(nu.studer.gradle.jooq.JooqEdition.OSS) // default (can be omitted)
+    edition.set(JooqEdition.OSS) // default (can be omitted)
 
     configurations {
         create("main") {
