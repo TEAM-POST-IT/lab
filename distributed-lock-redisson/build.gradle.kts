@@ -27,6 +27,11 @@ dependencies {
     implementation("org.redisson:redisson-spring-boot-starter:3.20.0")
 
     runtimeOnly("com.mysql:mysql-connector-j")
+
+    // test
+    testImplementation("io.kotest:kotest-runner-junit5-jvm:5.8.1")
+    testImplementation("io.kotest:kotest-assertions-core-jvm:5.8.1")
+    testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.3")
 }
 
 jooq {
