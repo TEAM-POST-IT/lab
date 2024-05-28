@@ -37,11 +37,10 @@ dependencies {
 jooq {
     version = jooqVersion // default (can be omitted)
     edition.set(JooqEdition.OSS) // default (can be omitted)
-
     configurations {
         create("main") {
             jooqConfiguration.apply {
-                generateSchemaSourceOnCompilation = true // default (can be omitted)
+                generateSchemaSourceOnCompilation = false // default (can be omitted)
                 logging = Logging.INFO
                 jdbc.apply {
                     driver = "com.mysql.cj.jdbc.Driver"
@@ -54,18 +53,20 @@ jooq {
                     database.apply {
                         name = "org.jooq.meta.mysql.MySQLDatabase"
                         inputSchema = "redisson-lock"
-                        forcedTypes.addAll(listOf(
-                            ForcedType().apply {
-                                name = "varchar"
-                                includeExpression = ".*"
-                                includeTypes = "JSONB?"
-                            },
-                            ForcedType().apply {
-                                name = "varchar"
-                                includeExpression = ".*"
-                                includeTypes = "INET"
-                            },
-                        ))
+                        forcedTypes.addAll(
+                            listOf(
+                                ForcedType().apply {
+                                    name = "varchar"
+                                    includeExpression = ".*"
+                                    includeTypes = "JSONB?"
+                                },
+                                ForcedType().apply {
+                                    name = "varchar"
+                                    includeExpression = ".*"
+                                    includeTypes = "INET"
+                                },
+                            )
+                        )
                     }
                     generate.apply {
                         isDeprecated = false
@@ -86,6 +87,12 @@ jooq {
     }
 }
 
-tasks.withType<KotlinCompile> {
+// 수동 generateJooqCode task 생성
+tasks.register("generateJooqCode") {
     dependsOn("generateJooq")
+}
+
+// build 시점에 generateJooqCode task 실행
+tasks.withType<KotlinCompile> {
+//    dependsOn("generateJooqCode")
 }
