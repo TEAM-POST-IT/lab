@@ -3,6 +3,7 @@ package com.example.distributedlockredisson.redisson_spin_lock
 import com.example.distributedlockredisson.domain.entity.Storage
 import com.example.distributedlockredisson.domain.repository.StorageRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Propagation.*
 import org.springframework.transaction.annotation.Transactional
 
 @Service
@@ -22,33 +23,42 @@ class StorageByRedissonSpinLockService(
                 storageRepository.findById(id)
             } ?: throw RuntimeException("Not found storage by id")
 
-//    @Transactional
-//    fun increaseFileSizeDbLock(id: Long): Storage =
-//        storageRepository.findByIdForUpdate(id = id)
-//            ?.increaseFileSize()
-//            ?.run {
-//                storageRepository.save(this)
-//            } ?: throw RuntimeException("Not found storage by id")
-//
-//    @Transactional(propagation = Propagation.NEVER)
-//    fun increaseFileSizeLettuceLockNonTx(id: Long, num: Int): Storage =
-//        lockService.lock(lockName = LOCK_NAME, key = id.toString(), numForTest = num) {
-//            storageRepository.findById(id = id)
-//                ?.increaseFileSize()
-//                ?.run {
-//                    storageRepository.save(this)
-//                } ?: throw RuntimeException("Not found storage by id")
-//        }
-//
-//    @Transactional(timeout = 2)
-//    fun increaseFileSizeLettuceLockWithTx(id: Long, num: Int): Storage =
-//        lockService.lock(lockName = LOCK_NAME, key = id.toString(), numForTest = num) {
-//            storageRepository.findById(id = id)
-//                ?.increaseFileSize()
-//                ?.run {
-//                    storageRepository.save(this)
-//                } ?: throw RuntimeException("Not found storage by id")
-//        }
+    @Transactional
+    fun increaseFileSizeDbLock(id: Long): Storage =
+        storageRepository.findByIdForUpdate(id = id)
+            ?.increaseFileSize()
+            ?.run {
+                storageRepository.update(this)
+                storageRepository.findById(id)
+            } ?: throw RuntimeException("Not found storage by id")
+
+    @Transactional(propagation = NEVER)
+    fun increaseFileSizeRedissonLockNonTx(
+        id: Long,
+        num: Int
+    ): Storage =
+        lockManager.lock(key = "$LOCK_NAME$id") {
+            storageRepository.findById(id = id)
+                ?.increaseFileSize()
+                ?.run {
+                    storageRepository.update(this)
+                    storageRepository.findById(id)
+                } ?: throw RuntimeException("Not found storage by id")
+        }
+
+    @Transactional(timeout = 2)
+    fun increaseFileSizeRedissonLockWithTx(
+        id: Long,
+        num: Int
+    ): Storage =
+        lockManager.lock(key = "$LOCK_NAME$id") {
+            storageRepository.findById(id = id)
+                ?.increaseFileSize()
+                ?.run {
+                    storageRepository.update(this)
+                    storageRepository.findById(id)
+                } ?: throw RuntimeException("Not found storage by id")
+        }
 
 
     companion object {

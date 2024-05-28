@@ -4,11 +4,8 @@ spring:
     url: jdbc:mysql://localhost:3306/redisson-lock?characterEncoding=UTF-8&serverTimezone=UTC
     username: root
     password: admin
-    pool:
-      enabled: true
-      initial-size: 10
-      max-size: 10
-      max-acquire-time: 2000
+    hikari:
+      maximum-pool-size: 10
   sql:
     init:
       schema-locations: classpath:sql/schema/**.sql

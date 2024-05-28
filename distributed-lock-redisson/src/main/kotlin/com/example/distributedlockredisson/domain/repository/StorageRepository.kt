@@ -36,4 +36,12 @@ class StorageRepository(
             .set(STORAGES.UPDATED_AT, LocalDateTime.now())
             .where(STORAGES.ID.eq(storage.id))
             .execute()
+
+    fun findByIdForUpdate(id: Long): Storage? =
+        dslContext.select()
+            .from(STORAGES)
+            .where(STORAGES.ID.eq(id))
+            .forUpdate()
+            .fetchOneInto(Storage::class.java)
+
 }

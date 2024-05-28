@@ -39,7 +39,7 @@ class RedissonLockManager(
         }
 
         try {
-            println("lock 획득 시도" + key)
+            println("lock 획득 시도 " + key)
             return txAdvise.requireNew {
                 func()
             }
