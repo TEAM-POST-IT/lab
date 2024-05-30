@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/redisson-lock?characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: admin
+    hikari:
+      maximum-pool-size: 10
+  sql:
+    init:
+      schema-locations: classpath:sql/schema/**.sql
+      data-locations:
+        - classpath:sql/data/**.sql
+      mode: always
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      connect-timeout: 3000
+      timeout: 3000
+
+logging:
+  level:
+    ROOT: INFO
+    org.jooq: DEBUG
